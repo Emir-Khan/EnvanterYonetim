@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ColorCodeController;
 use Illuminate\Support\Facades\Route;
 //Kullanıcı Kontrolleri ve Ara Katmanları
     use App\Http\Controllers\UserController;
@@ -247,6 +248,15 @@ Route::middleware(["auth"])->group(function(){
         Route::post('/orta_kullanim/ajax/getCommonItemType',[CommonItemController::class,'getCommonItemType'])->name('getCommonItemType');
     });
     Route::middleware('canAny:isAdmin,isProducer')->group(function(){
+    //Renk Kodu
+        //Renk Kodu CRUD
+        Route::get('/renk-kodu',[ColorCodeController::class, 'index'])->name('color_code');
+        Route::post('/renk-kodu/ekle', [ColorCodeController::class, "create"])->middleware(MaterialCreate::class)->name("color_code_create");
+        Route::post('/renk-kodu/duzenle', [ColorCodeController::class, "update"])->middleware(MaterialUpdate::class)->name("color_code_update");
+        Route::post('/renk-kodu/sil', [ColorCodeController::class, "delete"])->middleware(MaterialDelete::class)->name("color_code_delete");
+
+        //Renk Kodu Ajax Sorguları
+        Route::post('/renk-kodu/ajax/getTable',[ColorCodeController::class,'color_code_table_ajax'])->name('color_code_table_ajax');
     //MALZEME
         //Malzeme CRUD
         Route::get('/malzeme',[MaterialController::class, 'material'])->name('material');

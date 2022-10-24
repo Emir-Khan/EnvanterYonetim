@@ -81,6 +81,9 @@
                         <div class="bd-toc-item @yield('material_active')" >
                             <a class="bd-toc-link" href="{{ route('material') }}">Malzeme</a>
                         </div>
+                        <div class="bd-toc-item @yield('color_code_active')" >
+                            <a class="bd-toc-link" href="{{ route('color_code') }}">Renk Kodu</a>
+                        </div>
                         <div class="bd-toc-item @yield('vehicle_active')" >
                             <a class="bd-toc-link" href="{{ route('vehicle') }}">Araç</a>
                         </div>
