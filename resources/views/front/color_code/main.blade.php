@@ -10,13 +10,15 @@
         function colorCodeUpdate(id){
             $.ajax({
                 type:'POST',
-                url:`{{route('getMaterial')}}`,
+                url:`{{route('get_color_code')}}`,
                 data:{id},
                 dataType:'json',
                 success:function(response){
+                    console.log(response);
                     $('#color_code_update_detail').val(response.detail);
+                    $("#update_name_input").val(response.name);
                     //$('.color_code_update_type_select').select2("val",type_id);
-                    $('.color_code_update_type_select').val(response.type_id).trigger('change');
+                    // $('.color_code_update_type_select').val(response.type_id).trigger('change');
                     $('#color_code_update_id').val(response.id);
                 }
             });

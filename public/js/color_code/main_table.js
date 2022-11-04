@@ -44,7 +44,7 @@ $(document).ready( function () {
                 orderable:false,
                 render:function(row){
                     var html = `<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi Düzenle">
-                    <a onclick="materialUpdate('${row.id}')" data-toggle="modal" data-target="#materialUpdateModal">
+                    <a onclick="colorCodeUpdate('${row.id}')" data-toggle="modal" data-target="#colorCodeUpdateModal">
                     <i class="fas fa-edit table-icon text-primary"></i></a></span>`;
                     if(row.using_item >0 ){
                         html+=`<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Tüm </br> Malzemeleri Kullanıcı</br> Sayfasından İade Alınız!">

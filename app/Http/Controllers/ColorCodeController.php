@@ -20,6 +20,7 @@ class ColorCodeController extends Controller
     function create(Request $request){
         $control = ColorCode::insert([
             'name' => $request->name,
+            'detail' => $request->detail,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -34,6 +35,7 @@ class ColorCodeController extends Controller
         $control = ColorCode::where('id',$request->id)
         ->update([
             'name' => $request->name,
+            'detail' => $request->detail,
             'updated_at' => now()
         ]);
         if($control <= 0){
