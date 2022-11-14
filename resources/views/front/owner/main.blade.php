@@ -11,6 +11,7 @@
     var owner_common_table_ajax_url     =   "{{route('owner_common_table_ajax')}}";
     var owner_material_table_ajax_url   =   "{{route('owner_material_table_ajax')}}";
     var owner_vehicle_table_ajax_url    =   "{{route('owner_vehicle_table_ajax')}}";
+    var owner_color_code_table_ajax_url =   "{{route('owner_color_code_table_ajax')}}";
     var user_id = "{{$user->id}}";
     function hardwareDrop(id,issue_time){
         $.ajax({
@@ -82,6 +83,19 @@
             }
         });
     }
+    function colorCodeDrop(id){
+        $.ajax({
+            type:'POST',
+            url:`{{route('get_color_code')}}`,
+            data:{id},
+            dataType:'json',
+            success:function(response){
+                $('#color_code_drop_name').text(response.name);                
+                $('#color_code_drop_detail').html(response.detail);
+                $('#color_code_drop_id').val(response.id);
+            }
+        });
+    }
     function changeIssueTime(item_type,item_id,issue_input){
         $('#item_type').val(item_type);
         $('#item_id').val(item_id);
@@ -97,4 +111,5 @@
     <script src="{{ asset('js/owner/user_common.js') }}"></script>
     <script src="{{ asset('js/owner/user_material.js') }}"></script>
     <script src="{{ asset('js/owner/user_vehicle.js') }}"></script>
+    <script src="{{ asset('js/owner/user_color_code.js') }}"></script>
 @endsection

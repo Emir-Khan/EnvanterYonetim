@@ -1,59 +1,59 @@
 @extends('front.layouts.master')
 @section('title',"Renk Kodu Yönetim")
-@section('color_code_active',"active")
+@section('new_type_active',"active")
 @section('content')
-    @include('front.color_code.content.main')
+    @include('front.new_type.content.main')
 @endsection
 @section("script")
     <script>
-        var color_code_table_ajax_url = "{{route('color_code_table_ajax')}}";
-        function colorCodeUpdate(id){
+        var new_type_table_ajax_url = "{{route('new_type_table_ajax')}}";
+        function newTypeUpdate(id){
             $.ajax({
                 type:'POST',
-                url:`{{route('get_color_code')}}`,
+                url:`{{route('get_new_type')}}`,
                 data:{id},
                 dataType:'json',
                 success:function(response){
                     console.log(response);
-                    $('#color_code_update_detail').val(response.detail);
+                    $('#new_type_update_detail').val(response.detail);
                     $("#update_name_input").val(response.name);
-                    //$('.color_code_update_type_select').select2("val",type_id);
-                    // $('.color_code_update_type_select').val(response.type_id).trigger('change');
-                    $('#color_code_update_id').val(response.id);
+                    //$('.new_type_update_type_select').select2("val",type_id);
+                    // $('.new_type_update_type_select').val(response.type_id).trigger('change');
+                    $('#new_type_update_id').val(response.id);
                 }
             });
         }
-        function colorCodeDelete(id){
+        function newTypeDelete(id){
             $.ajax({
                 type:'POST',
-                url:`{{route('get_color_code')}}`,
+                url:`{{route('get_new_type')}}`,
                 data:{id},
                 dataType:'json',
                 success:function(response){
                     console.log(response);
-                    $('#color_code_delete_detail').html(response.detail);
-                    $('#color_code_delete_type').text(response.name);
-                    $('#color_code_delete_id').val(response.id);
+                    $('#new_type_delete_detail').html(response.detail);
+                    $('#new_type_delete_type').text(response.name);
+                    $('#new_type_delete_id').val(response.id);
                 }
             });
         }
-        function colorCodeCreateShowType(){
-            var new_type    =   $('#color_code_create_new_type');
-            var type_select =   $('.color_code_create_type_select');
+        function newTypeCreateShowType(){
+            var new_type    =   $('#new_type_create_new_type');
+            var type_select =   $('.new_type_create_type_select');
             new_type.val('');
             new_type.prop('required',false);
             new_type.prop('disabled',true);
             new_type.hide();
             type_select.select2({
-                dropdownParent: $('#colorCodeCreateModal')
+                dropdownParent: $('#newTypeCreateModal')
             });
             type_select.prop('required',true);
             type_select.prop('disabled',false);
             type_select.show();
         }
-        function colorCodeCreateNewType(){
-            var new_type    =   $('#color_code_create_new_type');
-            var type_select =   $('.color_code_create_type_select');
+        function newTypeCreateNewType(){
+            var new_type    =   $('#new_type_create_new_type');
+            var type_select =   $('.new_type_create_type_select');
             type_select.select2('destroy');
             type_select.prop('required',false);
             type_select.prop('disabled',true);
@@ -62,23 +62,23 @@
             new_type.prop('disabled',false);
             new_type.show();
         }
-        function colorCodeUpdateShowType(){
-            var new_type    =   $('#color_code_update_new_type');
-            var type_select =   $('.color_code_update_type_select');
+        function newTypeUpdateShowType(){
+            var new_type    =   $('#new_type_update_new_type');
+            var type_select =   $('.new_type_update_type_select');
             new_type.val('');
             new_type.prop('required',false);
             new_type.prop('disabled',true);
             new_type.hide();
             type_select.select2({
-                dropdownParent: $('#colorCodeUpdateModal')
+                dropdownParent: $('#newTypeUpdateModal')
             });
             type_select.prop('required',true);
             type_select.prop('disabled',false);
             type_select.show();
         }
-        function colorCodeUpdateNewType(){
-            var new_type    =   $('#color_code_update_new_type');
-            var type_select =   $('.color_code_update_type_select');
+        function newTypeUpdateNewType(){
+            var new_type    =   $('#new_type_update_new_type');
+            var type_select =   $('.new_type_update_type_select');
             type_select.select2('destroy');
             type_select.prop('required',false);
             type_select.prop('disabled',true);
@@ -88,13 +88,13 @@
             new_type.show();
         }
         $(document).ready(function(){
-            $('.color_code_create_type_select').select2({
-                dropdownParent: $('#colorCodeCreateModal')
+            $('.new_type_create_type_select').select2({
+                dropdownParent: $('#newTypeCreateModal')
             });
-            $('.color_code_update_type_select').select2({
-                dropdownParent: $('#colorCodeUpdateModal')
+            $('.new_type_update_type_select').select2({
+                dropdownParent: $('#newTypeUpdateModal')
             });
         });
     </script>
-    <script src="{{ asset('js/color_code/main_table.js') }}"></script>
+    <script src="{{ asset('js/new_type/main_table.js') }}"></script>
 @endsection

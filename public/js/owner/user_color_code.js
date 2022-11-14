@@ -1,16 +1,16 @@
-$(document).ready( function () {
-    setTimeout(createHardwareTable,300);
-    function createHardwareTable (){
-        $('#materialTable').DataTable({
+function createColorCodeTable (){
+    if($('#colorCodeCollapse').hasClass('drawTable')==false){
+        $('#colorCodeTable').DataTable({
         ajax:{
             type:'POST',
-            url: color_code_table_ajax_url,
+            url: owner_color_code_table_ajax_url,
+            data: {'id':user_id},
             dataSrc: 'color_codes'
         },
         columns: [
             {
-                title:'Boya Adı',
-                data: 'name',
+                title:'Araç Adı',
+                data:'name'
             },
             {
                 title:'Detay',
@@ -25,8 +25,8 @@ $(document).ready( function () {
                         var detail_row = 'Yok';
                         var detail = '';
                     }
-                    if(detail_row.length >70){
-                        html+=detail_row.slice(0,68)
+                    if(detail_row.length >20){
+                        html+=detail_row.slice(0,18)
                         +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'
                         +detail+'"><i class="fas fa-ellipsis-h" style="vertical-align: bottom;"></i></span>';
 
@@ -38,37 +38,50 @@ $(document).ready( function () {
                 }
             },
             {
-                title:'İşlemler',
-                data: null,
-                class: 'text-center',
-                orderable:false,
+                title:'Zimmet Tarihi',
+                data:null,
                 render:function(row){
-                    var html = `<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi Düzenle">
-                    <a onclick="colorCodeUpdate('${row.id}')" data-toggle="modal" data-target="#colorCodeUpdateModal">
-                    <i class="fas fa-edit table-icon text-primary"></i></a></span>`;
-                    if(row.using_item >0 ){
-                        html+=`<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Tüm </br> Malzemeleri Kullanıcı</br> Sayfasından İade Alınız!">
-                        <a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">
-                        <i class="fas fa-trash-alt table-icon-disabled"></i></a></span>`;
+                    var html='';
+                    if(row.role){
+                        html += '<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Zimmet Tarihini Değiştir">'
+                        +'<a data-toggle="modal" data-target="#changeIssueTimeModal" '
+                        +'onclick="changeIssueTime(\'color_code\',\''+row.id+'\',\''+row.issue_input+'\')"'
+                        +' class="text-decoration-none"><i class="fas fa-clock table-icon text-success"></i></a></span>';
+                    }
+                    html+=row.issue_time;
+                    return html;
+                }
+            },
+            {
+                title:'İşlemler',
+                data:null,
+                class: 'text-center',
+                render:function(row){
+                    if(row.role){
+                        var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Aracı Teslim Al">'
+                        +'<a data-toggle="modal" data-target="#colorCodeDropModal" '
+                        +'onclick="colorCodeDrop(\''+row.id+'\')"'
+                        +' class="text-decoration-none"><i class="fas fa-eraser table-icon text-danger"></i></a></span>';
                     }
                     else{
-                        html+=`<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi Siler!">
-                        <a onclick="colorCodeDelete('${row.id}')" data-toggle="modal" data-target="#colorCodeDeleteModal">
-                        <i class="fas fa-trash-alt table-icon text-danger"></i></a></span>`;
+                        var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Yetkiniz Yok!">'
+                        +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
+                        +'<i class="fas fa-eraser table-icon-disabled"></i></a></span>';
                     }
                     return html;
                 }
             },
             {
-                title:'Detay',
-                data:'detail',
-                visible:false,
-                render:function(data){
+                title: 'Detay',
+                data: 'detail',
+                visible: false,
+                render: function(data){
                     if(data){
-                        return data.replaceAll('\\n', '   ');
+                        var html = data.replaceAll('\\n','  ');
+                        return html;
                     }
                     else{
-                        return 'Yok';
+                        return " ";
                     }
                 }
             }
@@ -81,25 +94,25 @@ $(document).ready( function () {
                 footer: false,
                 className:"btn-sm btn-danger",
                 pageSize: 'A4',
-                title: 'Malzeme Raporu',
-                filename: 'Malzeme Raporu',
+                title: $('#userName').data('name')+' Araç Raporu',
+                filename: $('#userName').data('name')+' Araç Raporu',
                 customize: function(doc) {
                     doc.pageMargins = [ 60, 20, 60, 20 ];
                     doc.defaultStyle.fontSize = 14;
                     doc.styles.tableHeader.fontSize = 14;
                 },
                 exportOptions:{
-                    columns:[0,1,2]
+                    columns:[0,1,2,3,5]
                 }
             },
             {
                 extend: 'excel',
                 className:"btn-sm btn-danger",
-                title: 'Malzeme Raporu',
-                filename: 'Malzeme Raporu',
+                title: $('#userName').data('name')+' Araç Raporu',
+                filename: $('#userName').data('name')+' Araç Raporu',
                 footer: false,
                 exportOptions:{
-                    columns:[0,1,2],
+                    columns:[0,1,2,3,5],
                     trim:false
                 }
             }
@@ -139,5 +152,6 @@ $(document).ready( function () {
             $('[data-toggle="tooltip"]').tooltip();
         }
         });
+        $('#colorCodeCollapse').addClass('drawTable');
     }
-});
+}

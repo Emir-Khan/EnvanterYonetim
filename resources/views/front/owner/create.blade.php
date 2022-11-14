@@ -25,10 +25,14 @@
         var getVehicleElements_url      =   "{{route('getVehicleElements')}}";
         var get_useable_vehicle_url     =   "{{route('get_useable_vehicle')}}";
         var vehicle_create_ajax_url     =   "{{route('vehicle_create_ajax')}}";
+
+        var get_useable_color_code_url  =   "{{route('get_useable_color_code')}}";
+        var color_code_create_ajax_url  =   "{{route('color_code_create_ajax')}}";
     </script>
     <script src="{{asset('js/owner/hardware_select.js')}}"></script>
     <script src="{{asset('js/owner/software_select.js')}}"></script>
     <script src="{{asset('js/owner/common_item_select.js')}}"></script>
     <script src="{{asset('js/owner/material_select.js')}}"></script>
     <script src="{{asset('js/owner/vehicle_select.js')}}"></script>
+    <script src="{{asset('js/owner/color_code_select.js')}}"></script>
 @endsection

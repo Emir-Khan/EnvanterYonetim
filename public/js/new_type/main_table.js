@@ -4,8 +4,8 @@ $(document).ready( function () {
         $('#materialTable').DataTable({
         ajax:{
             type:'POST',
-            url: color_code_table_ajax_url,
-            dataSrc: 'color_codes'
+            url: new_type_table_ajax_url,
+            dataSrc: 'new_types'
         },
         columns: [
             {
@@ -44,7 +44,7 @@ $(document).ready( function () {
                 orderable:false,
                 render:function(row){
                     var html = `<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi Düzenle">
-                    <a onclick="colorCodeUpdate('${row.id}')" data-toggle="modal" data-target="#colorCodeUpdateModal">
+                    <a onclick="newTypeUpdate('${row.id}')" data-toggle="modal" data-target="#newTypeUpdateModal">
                     <i class="fas fa-edit table-icon text-primary"></i></a></span>`;
                     if(row.using_item >0 ){
                         html+=`<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Tüm </br> Malzemeleri Kullanıcı</br> Sayfasından İade Alınız!">
@@ -53,7 +53,7 @@ $(document).ready( function () {
                     }
                     else{
                         html+=`<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi Siler!">
-                        <a onclick="colorCodeDelete('${row.id}')" data-toggle="modal" data-target="#colorCodeDeleteModal">
+                        <a onclick="newTypeDelete('${row.id}')" data-toggle="modal" data-target="#newTypeDeleteModal">
                         <i class="fas fa-trash-alt table-icon text-danger"></i></a></span>`;
                     }
                     return html;

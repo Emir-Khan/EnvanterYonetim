@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ColorCode\ColorCode;
+use App\Models\ColorCode\ColorCodeOwner;
 use App\Models\CommonItem\CommonItem;
 use App\Models\CommonItem\CommonItemOwner;
 use App\Models\CommonItem\CommonItemType;
@@ -208,6 +210,37 @@ class OwnerController extends Controller
                     }
                 }
             }
+            if(isset($request->color_codes)){
+                foreach($request->color_codes as $item){
+                    $control = ColorCodeOwner::insert(['color_code_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    if($control){
+                        $color_code = ColorCode::find($item);
+                        if($color_code->detail != NULL){
+                            $trans_details = str_replace('\\n','  ',$color_code->detail);
+                            if(strlen($color_code->detail) > 30){
+                                $trans_details = str_split($trans_details,28);
+                                $trans_details = $trans_details[0]."...";
+                            }
+                        }
+                        else{
+                            $trans_details = "Yok";
+                        }
+                        Transaction::insert([
+                            'type_id' => 11,
+                            'user_id' => $user->id,
+                            'admin_name' => Auth::user()->name,
+                            'user_name' => $user->name,
+                            'user_email' => $user->email,
+                            'trans_info' => $color_code->name,
+                            'trans_details' => $trans_details,
+                            'created_at' => $issue_time
+                        ]);
+                    }
+                    else{
+                        return redirect()->route('owner_create',['id'=>$request->id])->withCookie(cookie('error', 'Zimmet Atama(ları) İşlemi Başarısız!',0.02));
+                    }
+                }
+            }
                 return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Atama(ları) Başarılı!',0.02));
         }
     //Zimmet İade
@@ -380,6 +413,39 @@ class OwnerController extends Controller
 
             }
         }
+        public function color_code_drop(Request $request){
+            $control = ColorCodeOwner::where('color_code_id',$request->color_code_id)->delete();
+            if($control>0){
+                $user = User::find($request->user_id);
+                $color_code = ColorCode::find($request->color_code_id);
+                $trans_info = 'Renk Kodu: '.$color_code->name;
+                if($color_code->detail != NULL){
+                    $trans_details = str_replace('\\n','  ',$color_code->detail);
+                    if(strlen($color_code->detail) > 30){
+                        $trans_details = str_split($trans_details,28);
+                        $trans_details = $trans_details[0]."...";
+                    }
+                }
+                else{
+                    $trans_details = "Yok";
+                }
+                Transaction::insert([
+                    'type_id'=> 12,
+                    'user_id'=>$user->id,
+                    'admin_name'=>Auth::user()->name,
+                    'user_name'=>$user->name,
+                    'user_email'=>$user->email,
+                    'trans_info'=>$trans_info,
+                    'trans_details'=>$trans_details,
+                    'created_at'=>now()
+                ]);
+                return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Renk Kodu Teslim Alındı!',0.02));
+            }
+            else{
+                return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('error', 'Renk Kodu Teslim Alma İşlemi Başarısız!',0.02));
+
+            }
+        }
     //Tablolar İçin Ajax Sorguları
         public function owner_hardware_table_ajax(Request $request){
             $hardwares = HardwareOwner::where('owner_id',$request->id)->get();
@@ -536,6 +602,26 @@ class OwnerController extends Controller
                 $vehicle->issue_input   =   date('Y-m-d',strtotime($vehicle->created_at));
             }
             $data['vehicles'] = $vehicles;
+            return response()->json($data);
+        }
+        public function owner_color_code_table_ajax(Request $request){
+            $color_codes = ColorCodeOwner::where('owner_id',$request->id)->get();
+            if($request->user()->can('isAdmin') || $request->user()->can('isProducer')){
+                $role= true;
+            }
+            else{
+                $role = false;
+            }
+            foreach($color_codes as $color_code){
+                $color_code->role          =   $role;
+                $color_code->name          =   $color_code->getInfo->name;
+                $color_code->detail        =   $color_code->getInfo->detail;
+                $color_code->id            =   $color_code->getInfo->id;
+
+                $color_code->issue_time    =   createTurkishDate($color_code->created_at);
+                $color_code->issue_input   =   date('Y-m-d',strtotime($color_code->created_at));
+            }
+            $data['color_codes'] = $color_codes;
             return response()->json($data);
         }
     //Zimmet Seçimleri İçin Ajax Sorguları
@@ -841,6 +927,68 @@ class OwnerController extends Controller
                         $html = "<div class='border border-dark p-3'>
                         <span><b><u>Araç Adı:</u></b> $item->name</span></br>
                         <span><b><u>Marka:</u></b> $item->model</span></br>
+                        <span><b><u>Detay:</u></b> $detail</span></br></div>";
+                        $data[] = array(
+                            'id'=> $item->id,
+                            'text'=> $text,
+                            'html' => $html,
+                            'detail' => $item->detail
+                        );
+                    }
+                    return response()->json($data);
+                }
+                else{
+                    return null;
+                }
+            }
+        }
+
+        public function get_useable_color_code(Request $request){
+            if(isset($request->search)){
+                $search = "%".$request->search."%";
+                $usable_color_code = ColorCode::select('color_codes.id as id','color_codes.name as name','vehicle_model.name as model','detail')
+                ->leftJoin("color_code_owners","color_code_owners.vehicle_id","=","color_codes.id")
+                ->whereNull('owner_id')
+                ->where(function($query) use ($search){
+                    $query->where('color_codes.name','like',$search)
+                    ->orWhere('vehicle_model.name','like',$search)
+                    ->orWhere('color_codes.detail','like',$search);
+                })->get();
+                if(count($usable_color_code)>0){
+                    foreach($usable_color_code as $item){
+                        $detail = str_split($item->detail,30);
+                        $detail = $detail[0];
+                        $detail = str_replace('\\n','</br>',$detail);
+                        $text = "<b>$item->name</b>";
+                        $html = "<div class='border border-dark p-3'>
+                        <span><b><u>Araç Adı:</u></b> $item->name</span></br>
+                        <span><b><u>Detay:</u></b> $detail</span></br></div>";
+                        $data[] = array(
+                            'id'=> $item->id,
+                            'text'=> $text,
+                            'html' => $html,
+                            'detail' => $item->detail
+                        );
+                    }
+                    return response()->json($data);
+                }
+                else{
+                    return null;
+                }
+            }
+            else{
+                $color_codes = ColorCode::select('color_codes.id as id','color_codes.name as name','detail')
+                ->leftJoin("color_code_owners","color_code_owners.color_code_id","=","color_codes.id")
+                ->whereNull('owner_id')->limit(5)->get();
+                if(count($color_codes)>0){
+                    foreach($color_codes as $item){
+                        $detail = str_split($item->detail,30);
+                        $detail = $detail[0];
+                        $detail = str_replace('\\n','</br>',$detail);
+                        $text = "<b>$item->id-$item->name</b>";
+                        $html = "<div class='border border-dark p-3'>
+                        <span><b><u>Araç Adı:</u></b> $item->name</span></br>
+                        <span><b><u>Marka:</u></b> $item->name</span></br>
                         <span><b><u>Detay:</u></b> $detail</span></br></div>";
                         $data[] = array(
                             'id'=> $item->id,
@@ -1212,7 +1360,7 @@ class OwnerController extends Controller
                 else{
                     $model_id = $request->model_id;
                 }
-                $control        =   Vehicle::insert([
+                $control        =   ColorCode::insert([
                     'name'=>$request->name,
                     'model_id'=>$model_id,
                     'detail'=>$detail,
@@ -1220,7 +1368,7 @@ class OwnerController extends Controller
                     'updated_at'=>now()
                 ]);
                 if($control>0){
-                    $item = Vehicle::orderByDesc('id')->first();
+                    $item = ColorCode::orderByDesc('id')->first();
                     $model = $item->getModel->name;
                     $data['id'] = $item->id;
                     $data['text'] ="<b>$model-$item->name</b>";
@@ -1228,6 +1376,62 @@ class OwnerController extends Controller
                 }
                 else{
                     $data['error'] = "Araç Ekleme Sırasında Hata!";
+                    return response()->json($data);
+                }
+        }
+        public function color_code_create_ajax(Request $request)
+        {
+            //KONTROL
+                // if($request->new_model){
+                //     $model = ColorCode::where('name',$request->new_model)->first();
+                //     if($model){
+                //         $data['error'] = "Bu Marka Zaten Mevcut!";
+                //         return response()->json($data);
+                //     }
+                // }
+                // else{
+                //     $model = VehicleModel::find($request->model_id);
+                //     if($model==NULL){
+                //         $data['error'] = "İşlem Sırasında Hata!";
+                //         return response()->json($data);
+                //     }
+                // }
+            //Araç Ekleme
+                $get_detail = trim($request->detail);
+                $get_detail = explode(PHP_EOL,$get_detail);
+                $detail='';
+                for($i=0;$i<count($get_detail);$i++){
+                    if($i != (count($get_detail)-1)){
+                        $detail .=  $get_detail[$i].'\n';
+                    }
+                    else{
+                        $detail .=  $get_detail[$i];
+                    }
+                }
+                // if($request->new_model){
+                //     VehicleModel::insert(['name' => $request->new_model,'created_at' => now(),'updated_at' => now()]);
+                //     $model = VehicleModel::where('name',$request->new_model)->first();
+                //     $model_id = $model->id;
+                //     $data['model'] = array('id'=>$model_id,'text'=>$model->name);
+                // }
+                // else{
+                //     $model_id = $request->model_id;
+                // }
+                $control        =   ColorCode::insert([
+                    'name'=>$request->name,
+                    'detail'=>$detail,
+                    'created_at'=>now(),
+                    'updated_at'=>now()
+                ]);
+                if($control>0){
+                    $item = ColorCode::orderByDesc('id')->first();
+                    $model = $item->name;
+                    $data['id'] = $item->id;
+                    $data['text'] ="<b>$model-$item->name</b>";
+                    return response()->json($data);
+                }
+                else{
+                    $data['error'] = "Renk Kodu Ekleme Sırasında Hata!";
                     return response()->json($data);
                 }
         }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\ColorCode;
+namespace App\Models\NewType;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ColorCode extends Model
+class NewType extends Model
 {
     use HasFactory;
 
-    protected $table = "color_codes";
+    protected $table="types";
 }

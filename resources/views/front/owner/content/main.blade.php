@@ -78,6 +78,20 @@
                 </div>
             </div>
         </div>
+        <div class="card my-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-success">
+                    <li class="breadcrumb-item">
+                        <a class="text-white" data-toggle="collapse" href="#colorCodeCollapse" onclick="createColorCodeTable()" role="button" aria-expanded="false" aria-controls="colorCodeCollapse"><i class="fas fa-truck"></i> Renk Kodları</a>
+                    </li>
+                </ol>
+            </nav>
+            <div class="col-12 pb-3">
+                <div id='colorCodeCollapse' class="collapse card" style="border: none">
+                    <table id="colorCodeTable" class="table table-sm table-striped table-bordered table-hover dt-responsive nowrap" style="width: 100%"></table>
+                </div>
+            </div>
+        </div>
         <div class="row my-2">
             <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 mr-auto my-3">
                 <a href="{{ route('user') }}" class="btn btn-sm btn-primary btn-block">Kullanıcı</a>
@@ -255,6 +269,37 @@
                         <b>Bu İşlem Geri Döndürülemez!</b>
                     </div>
                     <input type="hidden" name="vehicle_id" id="vehicle_drop_vehicle_id">
+                    <input type="hidden" name="user_id" value="{{$user->id}}">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" type="submit">Teslim Al</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="colorCodeDropModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Renk Kodu Teslim Alma İşlemi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('color_code_drop') }}" method="POST">
+                @csrf
+                <div class="modal-body px-5">
+                    <div>
+                        <b><u>Araç Adı:</u></b> <span id="color_code_drop_name"></span></br>
+                        <b><u>Detay:</u></b></br> <span id="color_code_drop_detail"></span></br>
+                    </div>
+                    <div class="mt-3 my-2 text-center">
+                        <u>Kullanıcıdan Aracı Teslim Almak Üzeresiniz!</u></br>
+                        <b>Bu İşlem Geri Döndürülemez!</b>
+                    </div>
+                    <input type="hidden" name="color_code_id" id="color_code_drop_id">
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                 </div>
                 <div class="modal-footer">
