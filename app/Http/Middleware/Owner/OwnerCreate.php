@@ -24,7 +24,7 @@ class OwnerCreate
         if($control == NULL){
             return redirect()->back()->withCookie(cookie('error','İşlem Sırasında Hata!',0.02));
         }
-        if(!isset($request->hardwares) && !isset($request->softwares) && !isset($request->commons) && !isset($request->materials) && !isset($request->vehicles)&& !isset($request->color_codes)){
+        if(!isset($request->hardwares) && !isset($request->softwares) && !isset($request->commons) && !isset($request->materials) && !isset($request->vehicles)&& !isset($request->color_codes) && !isset($request->new_types)){
             return redirect()->back()->withCookie(cookie('error','Hiç Seçim Yapmadınız!',0.02));
         }
         else{

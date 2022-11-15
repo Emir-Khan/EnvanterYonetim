@@ -1,6 +1,6 @@
-function colorCodeCreateNewModel(){
-    var new_model = $('#color_code_create_new_model');
-    var model_select = $('.color_code_create_model_select');
+function newTypeCreateNewModel(){
+    var new_model = $('#new_type_create_new_model');
+    var model_select = $('.new_type_create_model_select');
     model_select.prop('required',false);
     model_select.prop('disabled',true);
     model_select.select2('destroy');
@@ -9,62 +9,62 @@ function colorCodeCreateNewModel(){
     new_model.prop('disabled',false);
     new_model.show();
 }
-function colorCodeCreateShowModel(){
-    var new_model       =   $('#color_code_create_new_model');
-    var model_select    =   $('.color_code_create_model_select');
+function newTypeCreateShowModel(){
+    var new_model       =   $('#new_type_create_new_model');
+    var model_select    =   $('.new_type_create_model_select');
     new_model.val('');
     new_model.prop('required',false);
     new_model.prop('disabled',true);
     new_model.hide();
     model_select.select2({
-        dropdownParent: $('#colorCodeCreateModal')
+        dropdownParent: $('#newTypeCreateModal')
     });
     model_select.prop('required',true);
     model_select.prop('disabled',false);
     model_select.show();
 }
-$('#colorCodeCreateForm').on('submit',function(e){
+$('#newTypeCreateForm').on('submit',function(e){
     e.preventDefault();
     $.ajax({
         type:'POST',
-        url: color_code_create_ajax_url,
-        data: $('#colorCodeCreateForm').serialize(),
+        url: new_type_create_ajax_url,
+        data: $('#newTypeCreateForm').serialize(),
         success:function(response){
             if(response.id){
-                $('#colorCodeCreateModal').modal('toggle');
-                $('#color_codeErrorMessage').text('');
-                $(".color_code_select").append($('<option>', {value:response.id, text: response.text}));
-                var newVal = $('.color_code_select').val();
+                $('#newTypeCreateModal').modal('toggle');
+                $('#new_typeErrorMessage').text('');
+                $(".new_type_select").append($('<option>', {value:response.id, text: response.text}));
+                var newVal = $('.new_type_select').val();
                 newVal.push(response.id);
-                $(".color_code_select").val(newVal);
+                $(".new_type_select").val(newVal);
                 if(response.model){
-                    $(".color_code_create_model_select").append($('<option>', {value:response.model.id, text: response.model.text}));
-                    colorCodeCreateShowModel();
+                    $(".new_type_create_model_select").append($('<option>', {value:response.model.id, text: response.model.text}));
+                    newTypeCreateShowModel();
                 }
-                $('#color_code_create_detail').val('');
+                $('#new_type_create_detail').val('');
             }
             else{
-                $('#color_codeErrorMessage').text(response.error);
+                $('#new_typeErrorMessage').text(response.error);
             }
         }
     });
 });
-NgApp.controller('colorCodeController',function($http,$scope){
+NgApp.controller('newTypeController',function($http,$scope){
     $http.post(getVehicleElements_url).then(function(response){
         console.log(response.data);
         $scope.models   =   response.data.models;
     });
 });
 $(document).ready(function(){
-    $('.color_code_create_model_select').select2({
-        dropdownParent: $('#colorCodeCreateModal')
+    $('.new_type_create_model_select').select2({
+        dropdownParent: $('#newTypeCreateModal')
     });
-    $('.color_code_select').select2({
-        placeholder:"Renk Kodu Giriniz",
+    $('.new_type_select').select2({
+        placeholder:"Tür Giriniz",
         language:"tr",
         ajax:{
             type: 'POST',
-            url: get_useable_color_code_url,
+            url: get_useable_new_type_url,
             dataType: 'json',
             delay:250,
             data:function(params){

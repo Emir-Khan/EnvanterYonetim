@@ -42,6 +42,48 @@
         </div>
     </div>
     <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
+        <div class="card bg-info">
+            <div ng-mouseenter="WidgetMouseEnter(6)" ng-mouseleave="WidgetMouseLeave(6)" class="card-header info-widget">
+                <i ng-style="widget_icon[6]" class="fas fa-tint widget-icon"></i>
+                <span class="widget-info">Renk Kodu</span>
+                <span class="widget-text">
+                    <a class="widget-href" @canany(['isAdmin','isIT']) href="{{route('color_code')}}" @endcanany>
+                        @{{result.color_code_all}}
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_wait">
+        <div class="card bg-info">
+            <div class="card-header info-widget">
+                <i class="fas fa-spinner fa-spin widget-loading"></i>
+                <span class="widget-info"><br><br>Yükleniyor</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
+        <div class="card bg-dark">
+            <div ng-mouseenter="WidgetMouseEnter(7)" ng-mouseleave="WidgetMouseLeave(7)" class="card-header info-widget">
+                <i ng-style="widget_icon[7]" class="fas fa-font widget-icon"></i>
+                <span class="widget-info">Tür</span>
+                <span class="widget-text">
+                    <a class="widget-href" @canany(['isAdmin','isIT']) href="{{route('new_type')}}" @endcanany>
+                        @{{result.new_type_all}}
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_wait">
+        <div class="card bg-dark">
+            <div class="card-header info-widget">
+                <i class="fas fa-spinner fa-spin widget-loading"></i>
+                <span class="widget-info"><br><br>Yükleniyor</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
         <div class="card bg-success">
             <div ng-mouseenter="WidgetMouseEnter(2)" ng-mouseleave="WidgetMouseLeave(2)" class="card-header info-widget">
                 <i ng-style="widget_icon[2]" class="fas fa-users widget-icon"></i>

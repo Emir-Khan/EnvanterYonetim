@@ -81,6 +81,7 @@ use App\Http\Middleware\UserLogin;
     use App\Http\Middleware\Competent\CompetentUpdatePassword;
     use App\Http\Middleware\Competent\CompetentDelete;
 use App\Http\Middleware\Owner\ColorCodeDrop;
+use App\Http\Middleware\Owner\NewTypeDrop;
 
 //Giriş
 Route::get('/', [MainController::class, "login"])->middleware(UserLogin::class)->name("login");
@@ -159,6 +160,8 @@ Route::middleware(["auth"])->group(function(){
 
             Route::post('/zimmet/renk-kodu/sil', [OwnerController::class, "color_code_drop"])->middleware(ColorCodeDrop::class)->name("color_code_drop");
 
+            Route::post('/zimmet/tür/sil', [OwnerController::class, "new_type_drop"])->middleware(NewTypeDrop::class)->name("new_type_drop");
+
             Route::middleware('canAny:isAdmin,isIT,isProducer')->group(function(){
                 Route::get('/zimmet/yeni/{id}', [OwnerController::class, "owner_create"])->name("owner_create");
                 Route::post('/zimmet/yeni/sonuc', [OwnerController::class, "owner_create_result"])->middleware(OwnerCreate::class)->name("owner_create_result");
@@ -173,6 +176,8 @@ Route::middleware(["auth"])->group(function(){
             Route::post('zimmet/malzeme/ajax',[OwnerController::class,'owner_material_table_ajax'])->name('owner_material_table_ajax');
             Route::post('zimmet/arac/ajax',[OwnerController::class,'owner_vehicle_table_ajax'])->name('owner_vehicle_table_ajax');
             Route::post('zimmet/boya-kodu/ajax',[OwnerController::class,'owner_color_code_table_ajax'])->name('owner_color_code_table_ajax');
+
+            Route::post('zimmet/tür/ajax',[OwnerController::class,'owner_new_type_table_ajax'])->name('owner_new_type_table_ajax');
 
             Route::post('zimmet/yeni/donanim_secim/ajax',[OwnerController::class,'get_useable_hardware'])->name('get_useable_hardware');
             Route::post('zimmet/yeni/donanim',[OwnerController::class,'hardware_create_ajax'])->name('hardware_create_ajax');
@@ -191,6 +196,9 @@ Route::middleware(["auth"])->group(function(){
 
             Route::post('zimmet/yeni/renk_kodu/ajax',[OwnerController::class,'get_useable_color_code'])->name('get_useable_color_code');
             Route::post('zimmet/yeni/renk_kodu',[OwnerController::class,'color_code_create_ajax'])->name('color_code_create_ajax');
+
+            Route::post('zimmet/yeni/tür/ajax',[OwnerController::class,'get_useable_new_type'])->name('get_useable_new_type');
+            Route::post('zimmet/yeni/tür',[OwnerController::class,'new_type_create_ajax'])->name('new_type_create_ajax');
     Route::middleware('canAny:isAdmin,isIT')->group(function(){
     //DONANIM
         //Donanım CRUD

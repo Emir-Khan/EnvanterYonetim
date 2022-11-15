@@ -15,6 +15,8 @@ use App\Models\Hardware\HardwareType;
 use App\Models\Material\Material;
 use App\Models\Material\MaterialOwner;
 use App\Models\Material\MaterialType;
+use App\Models\NewType\NewType;
+use App\Models\NewType\NewTypeOwner;
 use App\Models\Software\Software;
 use App\Models\Software\SoftwareOwner;
 use App\Models\Software\SoftwareType;
@@ -241,6 +243,38 @@ class OwnerController extends Controller
                     }
                 }
             }
+            if(isset($request->new_types)){
+                foreach($request->new_types as $item){
+                    $control = NewTypeOwner::insert(['new_type_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    if($control){
+                        $new_type = NewType::find($item);
+                        if($new_type->detail != NULL){
+                            $trans_details = str_replace('\\n','  ',$new_type->detail);
+                            if(strlen($new_type->detail) > 30){
+                                $trans_details = str_split($trans_details,28);
+                                $trans_details = $trans_details[0]."...";
+                            }
+                        }
+                        else{
+                            $trans_details = "Yok";
+                        }
+                        
+                        $asd = Transaction::insert([
+                            'type_id' => 13,
+                            'user_id' => $user->id,
+                            'admin_name' => Auth::user()->name,
+                            'user_name' => $user->name,
+                            'user_email' => $user->email,
+                            'trans_info' => $new_type->name,
+                            'trans_details' => $trans_details,
+                            'created_at' => $issue_time
+                        ]);
+                    }
+                    else{
+                        return redirect()->route('owner_create',['id'=>$request->id])->withCookie(cookie('error', 'Zimmet Atama(ları) İşlemi Başarısız!',0.02));
+                    }
+                }
+            }
                 return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Atama(ları) Başarılı!',0.02));
         }
     //Zimmet İade
@@ -446,6 +480,39 @@ class OwnerController extends Controller
 
             }
         }
+        public function new_type_drop(Request $request){
+            $control = NewTypeOwner::where('new_type_id',$request->new_type_id)->delete();
+            if($control>0){
+                $user = User::find($request->user_id);
+                $new_type = NewType::find($request->new_type_id);
+                $trans_info = 'Renk Kodu: '.$new_type->name;
+                if($new_type->detail != NULL){
+                    $trans_details = str_replace('\\n','  ',$new_type->detail);
+                    if(strlen($new_type->detail) > 30){
+                        $trans_details = str_split($trans_details,28);
+                        $trans_details = $trans_details[0]."...";
+                    }
+                }
+                else{
+                    $trans_details = "Yok";
+                }
+                Transaction::insert([
+                    'type_id'=> 14,
+                    'user_id'=>$user->id,
+                    'admin_name'=>Auth::user()->name,
+                    'user_name'=>$user->name,
+                    'user_email'=>$user->email,
+                    'trans_info'=>$trans_info,
+                    'trans_details'=>$trans_details,
+                    'created_at'=>now()
+                ]);
+                return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Renk Kodu Teslim Alındı!',0.02));
+            }
+            else{
+                return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('error', 'Renk Kodu Teslim Alma İşlemi Başarısız!',0.02));
+
+            }
+        }
     //Tablolar İçin Ajax Sorguları
         public function owner_hardware_table_ajax(Request $request){
             $hardwares = HardwareOwner::where('owner_id',$request->id)->get();
@@ -622,6 +689,26 @@ class OwnerController extends Controller
                 $color_code->issue_input   =   date('Y-m-d',strtotime($color_code->created_at));
             }
             $data['color_codes'] = $color_codes;
+            return response()->json($data);
+        }
+        public function owner_new_type_table_ajax(Request $request){
+            $new_types = NewTypeOwner::where('owner_id',$request->id)->get();
+            if($request->user()->can('isAdmin') || $request->user()->can('isProducer')){
+                $role= true;
+            }
+            else{
+                $role = false;
+            }
+            foreach($new_types as $new_type){
+                $new_type->role          =   $role;
+                $new_type->name          =   $new_type->getInfo->name;
+                $new_type->detail        =   $new_type->getInfo->detail;
+                $new_type->id            =   $new_type->getInfo->id;
+
+                $new_type->issue_time    =   createTurkishDate($new_type->created_at);
+                $new_type->issue_input   =   date('Y-m-d',strtotime($new_type->created_at));
+            }
+            $data['new_types'] = $new_types;
             return response()->json($data);
         }
     //Zimmet Seçimleri İçin Ajax Sorguları
@@ -982,6 +1069,67 @@ class OwnerController extends Controller
                 ->whereNull('owner_id')->limit(5)->get();
                 if(count($color_codes)>0){
                     foreach($color_codes as $item){
+                        $detail = str_split($item->detail,30);
+                        $detail = $detail[0];
+                        $detail = str_replace('\\n','</br>',$detail);
+                        $text = "<b>$item->id-$item->name</b>";
+                        $html = "<div class='border border-dark p-3'>
+                        <span><b><u>Araç Adı:</u></b> $item->name</span></br>
+                        <span><b><u>Marka:</u></b> $item->name</span></br>
+                        <span><b><u>Detay:</u></b> $detail</span></br></div>";
+                        $data[] = array(
+                            'id'=> $item->id,
+                            'text'=> $text,
+                            'html' => $html,
+                            'detail' => $item->detail
+                        );
+                    }
+                    return response()->json($data);
+                }
+                else{
+                    return null;
+                }
+            }
+        }
+        public function get_useable_new_type(Request $request){
+            if(isset($request->search)){
+                $search = "%".$request->search."%";
+                $usable_new_type = NewType::select('new_types.id as id','new_types.name as name','vehicle_model.name as model','detail')
+                ->leftJoin("new_type_owners","new_type_owners.vehicle_id","=","new_types.id")
+                ->whereNull('owner_id')
+                ->where(function($query) use ($search){
+                    $query->where('new_types.name','like',$search)
+                    ->orWhere('vehicle_model.name','like',$search)
+                    ->orWhere('new_types.detail','like',$search);
+                })->get();
+                if(count($usable_new_type)>0){
+                    foreach($usable_new_type as $item){
+                        $detail = str_split($item->detail,30);
+                        $detail = $detail[0];
+                        $detail = str_replace('\\n','</br>',$detail);
+                        $text = "<b>$item->name</b>";
+                        $html = "<div class='border border-dark p-3'>
+                        <span><b><u>Araç Adı:</u></b> $item->name</span></br>
+                        <span><b><u>Detay:</u></b> $detail</span></br></div>";
+                        $data[] = array(
+                            'id'=> $item->id,
+                            'text'=> $text,
+                            'html' => $html,
+                            'detail' => $item->detail
+                        );
+                    }
+                    return response()->json($data);
+                }
+                else{
+                    return null;
+                }
+            }
+            else{
+                $new_types = NewType::select('new_types.id as id','new_types.name as name','detail')
+                ->leftJoin("new_type_owners","new_type_owners.new_type_id","=","new_types.id")
+                ->whereNull('owner_id')->limit(5)->get();
+                if(count($new_types)>0){
+                    foreach($new_types as $item){
                         $detail = str_split($item->detail,30);
                         $detail = $detail[0];
                         $detail = str_replace('\\n','</br>',$detail);
@@ -1425,6 +1573,62 @@ class OwnerController extends Controller
                 ]);
                 if($control>0){
                     $item = ColorCode::orderByDesc('id')->first();
+                    $model = $item->name;
+                    $data['id'] = $item->id;
+                    $data['text'] ="<b>$model-$item->name</b>";
+                    return response()->json($data);
+                }
+                else{
+                    $data['error'] = "Renk Kodu Ekleme Sırasında Hata!";
+                    return response()->json($data);
+                }
+        }
+        public function new_type_create_ajax(Request $request)
+        {
+            //KONTROL
+                // if($request->new_model){
+                //     $model = NewType::where('name',$request->new_model)->first();
+                //     if($model){
+                //         $data['error'] = "Bu Marka Zaten Mevcut!";
+                //         return response()->json($data);
+                //     }
+                // }
+                // else{
+                //     $model = VehicleModel::find($request->model_id);
+                //     if($model==NULL){
+                //         $data['error'] = "İşlem Sırasında Hata!";
+                //         return response()->json($data);
+                //     }
+                // }
+            //Araç Ekleme
+                $get_detail = trim($request->detail);
+                $get_detail = explode(PHP_EOL,$get_detail);
+                $detail='';
+                for($i=0;$i<count($get_detail);$i++){
+                    if($i != (count($get_detail)-1)){
+                        $detail .=  $get_detail[$i].'\n';
+                    }
+                    else{
+                        $detail .=  $get_detail[$i];
+                    }
+                }
+                // if($request->new_model){
+                //     VehicleModel::insert(['name' => $request->new_model,'created_at' => now(),'updated_at' => now()]);
+                //     $model = VehicleModel::where('name',$request->new_model)->first();
+                //     $model_id = $model->id;
+                //     $data['model'] = array('id'=>$model_id,'text'=>$model->name);
+                // }
+                // else{
+                //     $model_id = $request->model_id;
+                // }
+                $control        =   NewType::insert([
+                    'name'=>$request->name,
+                    'detail'=>$detail,
+                    'created_at'=>now(),
+                    'updated_at'=>now()
+                ]);
+                if($control>0){
+                    $item = NewType::orderByDesc('id')->first();
                     $model = $item->name;
                     $data['id'] = $item->id;
                     $data['text'] ="<b>$model-$item->name</b>";

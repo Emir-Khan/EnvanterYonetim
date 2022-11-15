@@ -40,15 +40,16 @@
             success: function(response){
                 var currentMonth = response.currentMonth;
                 var currentMonthTransaction = response.currentMonthTransaction;
+                console.log(currentMonthTransaction);
                 var currentMonthTransactionChart = $("#currentMonthTransactionChart")[0].getContext('2d');
                 $('#currentMonth').text(currentMonth+" Ayı İşlem Grafiği");
                 var Chart1 = new Chart(currentMonthTransactionChart, {
                     type: 'doughnut',
                     data: {
-                    labels: ["Donanım", "Yazılım", "Malzeme", "Ortak Kullanım","Araç"],
+                    labels: ["Donanım", "Yazılım", "Malzeme", "Ortak Kullanım","Araç","Renk Kodu","Tür"],
                     datasets: [{
                         data: currentMonthTransaction,
-                        backgroundColor: ["#dc3545", "#17a2b8", "#343a40", "#6c5ce7","#feca57"],
+                        backgroundColor: ["#dc3545", "#17a2b8", "#343a40", "#6c5ce7","#feca57","Green","#343a40"],
                         hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#57606f", "#A8B3C5","#ff9f43"]
                     }]
                     },

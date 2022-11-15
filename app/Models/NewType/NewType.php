@@ -9,5 +9,5 @@ class NewType extends Model
 {
     use HasFactory;
 
-    protected $table="types";
+    protected $table="new_types";
 }

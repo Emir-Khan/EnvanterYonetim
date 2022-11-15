@@ -10,9 +10,11 @@ use App\Models\Software\Software;
 use App\Models\Transaction\Transaction;
 use App\Models\Admin\Admin;
 use App\Models\Admin\Role;
+use App\Models\ColorCode\ColorCode;
 use App\Models\CommonItem\CommonItem;
 use App\Models\Material\Material;
 use App\Models\Material\MaterialOwner;
+use App\Models\NewType\NewType;
 use App\Models\Reset;
 use App\Models\Vehicle\Vehicle;
 use Illuminate\Support\Facades\Auth;
@@ -142,6 +144,8 @@ class MainController extends Controller
             $data['common_all']     =   CommonItem::all()->count();
             $data['vehicle_all']    =   Vehicle::all()->count();
             $data['user']           =   User::all()->count();
+            $data['color_code_all'] =   ColorCode::all()->count();
+            $data['new_type_all']   =   NewType::all()->count();
             return response()->json($data);
         }
         public function homepage_currentMonthTransaction(Request $request){
@@ -149,7 +153,7 @@ class MainController extends Controller
             $start_date = date("Y-m-01 00:00:00");
             $end_date = strtotime("+1 month",strtotime($start_date));
             $end_date = date("Y-m-d 00:00:00",$end_date);
-            for($i=1;$i<=5;$i++){
+            for($i=1;$i<=7;$i++){
                 $j=(2*$i)-1;
                 $data['currentMonthTransaction'][] = Transaction::whereBetween('created_at',[$start_date,$end_date])->
                 whereBetween('type_id',[$j,$j+1])->count();

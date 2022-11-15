@@ -56,6 +56,13 @@
                     </div>
                     <button type="button" data-toggle="modal" data-target="#colorCodeCreateModal" class="btn btn-sm btn-success">Yeni Renk Kodu</button>
                 </div>
+                <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
+                    <label for="materials">Tür(ler)</label>
+                    <div class="input-group mb-1">
+                        <select class="form-control new_type_select" name="new_types[]" multiple tabindex="-1"></select>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#newTypeCreateModal" class="btn btn-sm btn-success">Yeni Tür</button>
+                </div>
                 @endcanany
                 <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
                     <label for="materials">Zimmet Tarihi</label>
@@ -373,6 +380,52 @@
                     <label for="detail">Detay</label>
                     <div class="input-group mb-3">
                         <textarea id="color_code_create_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Ekle</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="newTypeCreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-controller="newTypeController">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Renk Kodu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="newTypeCreateForm" action="{{ route('new_type_create_ajax') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <b class="text-danger"><u id="new_typeErrorMessage"></u></b>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button onclick="newTypeCreateShowModel()" class="btn btn-outline-secondary" type="button">Marka</button>
+                        </div>
+                        <select class="new_type_create_model_select" id="create_model_select" name="model_id" required>
+                            <option ng-repeat="model in models" value="@{{model.id}}">@{{model.name}}</option>
+                        </select>
+                        <input type="text" id="new_type_create_new_model" placeholder="Yeni Marka" name="new_model" class="form-control" disabled style="display: none">
+                        <div class="input-group-append">
+                            <button onclick="newTypeCreateNewModel()" class="btn btn-outline-secondary" type="button">Yeni</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Araç Adı</span>
+                        </div>
+                        <input class="form-control" id="new_type_create_name" name="name" required>
+                    </div>
+                    <label for="detail">Detay</label>
+                    <div class="input-group mb-3">
+                        <textarea id="new_type_create_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
