@@ -80,9 +80,9 @@
         </div>
         <div class="card my-3">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb bg-success">
+                <ol class="breadcrumb bg-info">
                     <li class="breadcrumb-item">
-                        <a class="text-white" data-toggle="collapse" href="#colorCodeCollapse" onclick="createColorCodeTable()" role="button" aria-expanded="false" aria-controls="colorCodeCollapse"><i class="fas fa-truck"></i> Renk Kodları</a>
+                        <a class="text-white" data-toggle="collapse" href="#colorCodeCollapse" onclick="createColorCodeTable()" role="button" aria-expanded="false" aria-controls="colorCodeCollapse"><i class="fas fa-tint"></i> Renk Kodları</a>
                     </li>
                 </ol>
             </nav>
@@ -94,9 +94,9 @@
         </div>
         <div class="card my-3">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb bg-success">
+                <ol class="breadcrumb bg-dark">
                     <li class="breadcrumb-item">
-                        <a class="text-white" data-toggle="collapse" href="#newTypeCollapse" onclick="createNewTypeTable()" role="button" aria-expanded="false" aria-controls="newTypeCollapse"><i class="fas fa-truck"></i> Renk Kodları</a>
+                        <a class="text-white" data-toggle="collapse" href="#newTypeCollapse" onclick="createNewTypeTable()" role="button" aria-expanded="false" aria-controls="newTypeCollapse"><i class="fas fa-font"></i> Türler</a>
                     </li>
                 </ol>
             </nav>
