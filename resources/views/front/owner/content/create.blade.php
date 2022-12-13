@@ -12,56 +12,34 @@
             @csrf
             <div class="row">
                 @canany(['isAdmin','isIT'])
-                <div class="col-12 col-lg-6 col-xl-6 ml-auto mb-3">
-                    <label for="hardwares">Donanım(lar)</label>
-                    <div class="input-group mb-1">
-                        <select class="form-control hardware_select" name="hardwares[]" multiple tabindex="-1"></select>
-                    </div>
-                    <button type="button" data-toggle="modal" data-target="#hardwareCreateModal" class="btn btn-sm btn-success">Yeni Donanım</button>
-                </div>
-                <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
-                    <label for="softwares">Yazılım(lar)</label>
-                    <div class="input-group mb-1">
-                        <select class="form-control software_select" name="softwares[]" multiple tabindex="-1"></select>
-                    </div>
-                    <button type="button" data-toggle="modal" data-target="#softwareCreateModal" class="btn btn-sm btn-success">Yeni Yazılım</button>
-                </div>
-                <div class="col-12 col-lg-6 col-xl-6 ml-auto mb-3">
-                    <label for="commons">Ortak Kullanım(lar)</label>
-                    <div class="input-group mb-1">
-                        <select class="form-control common_select" name="commons[]" multiple tabindex="-1"></select>
-                    </div>
-                    <button type="button" data-toggle="modal" data-target="#commonItemCreateModal" class="btn btn-sm btn-success">Yeni Ortak Kullanım</button>
-                </div>
-                @endcanany
-                @canany(['isAdmin','isProducer'])
-                <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
-                    <label for="materials">Malzeme(ler)</label>
-                    <div class="input-group mb-1">
-                        <select class="form-control material_select" name="materials[]" multiple tabindex="-1"></select>
-                    </div>
-                    <button type="button" data-toggle="modal" data-target="#materialCreateModal" class="btn btn-sm btn-success">Yeni Malzeme</button>
-                </div>
-                <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
-                    <label for="materials">Araç(lar)</label>
-                    <div class="input-group mb-1">
-                        <select class="form-control vehicle_select" name="vehicles[]" multiple tabindex="-1"></select>
-                    </div>
-                    <button type="button" data-toggle="modal" data-target="#vehicleCreateModal" class="btn btn-sm btn-success">Yeni Araç</button>
-                </div>
+                
                 <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
                     <label for="materials">Renk Kod(ları)</label>
                     <div class="input-group mb-1">
                         <select class="form-control color_code_select" name="color_codes[]" multiple tabindex="-1"></select>
                     </div>
-                    <button type="button" data-toggle="modal" data-target="#colorCodeCreateModal" class="btn btn-sm btn-success">Yeni Renk Kodu</button>
+                    <a href="{{route('color_code')}}"><button type="button"  class="btn btn-sm btn-success">Yeni Renk Kodu</button></a>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
+                    <label for="materials">Ürün Tür(leri)</label>
+                    <div class="input-group mb-1">
+                        <select class="form-control product_type_select" name="product_types[]" multiple tabindex="-1"></select>
+                    </div>
+                    <a href="{{route('product_type')}}"><button type="button"  class="btn btn-sm btn-success">Yeni Ürün Türü</button></a>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
+                    <label for="materials">Durum(lar)</label>
+                    <div class="input-group mb-1">
+                        <select class="form-control status_select" name="status[]" multiple tabindex="-1"></select>
+                    </div>
+                    <a href="{{route('status')}}"><button type="button"  class="btn btn-sm btn-success">Yeni Durum</button></a>
                 </div>
                 <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
                     <label for="materials">Tür(ler)</label>
                     <div class="input-group mb-1">
                         <select class="form-control new_type_select" name="new_types[]" multiple tabindex="-1"></select>
                     </div>
-                    <button type="button" data-toggle="modal" data-target="#newTypeCreateModal" class="btn btn-sm btn-success">Yeni Tür</button>
+                    <a href="{{route('new_type')}}"><button type="button"  class="btn btn-sm btn-success">Yeni Tür</button></a>
                 </div>
                 @endcanany
                 <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
@@ -380,6 +358,98 @@
                     <label for="detail">Detay</label>
                     <div class="input-group mb-3">
                         <textarea id="color_code_create_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Ekle</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="productTypeCreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-controller="productTypeController">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Renk Kodu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="productTypeCreateForm" action="{{ route('product_type_create_ajax') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <b class="text-danger"><u id="product_typeErrorMessage"></u></b>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button onclick="productTypeCreateShowModel()" class="btn btn-outline-secondary" type="button">Marka</button>
+                        </div>
+                        <select class="product_type_create_model_select" id="create_model_select" name="model_id" required>
+                            <option ng-repeat="model in models" value="@{{model.id}}">@{{model.name}}</option>
+                        </select>
+                        <input type="text" id="product_type_create_new_model" placeholder="Yeni Marka" name="new_model" class="form-control" disabled style="display: none">
+                        <div class="input-group-append">
+                            <button onclick="productTypeCreateNewModel()" class="btn btn-outline-secondary" type="button">Yeni</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Araç Adı</span>
+                        </div>
+                        <input class="form-control" id="product_type_create_name" name="name" required>
+                    </div>
+                    <label for="detail">Detay</label>
+                    <div class="input-group mb-3">
+                        <textarea id="product_type_create_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Ekle</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="statusCreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-controller="statusController">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Renk Kodu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="statusCreateForm" action="{{ route('status_create_ajax') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <b class="text-danger"><u id="statusErrorMessage"></u></b>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button onclick="statusCreateShowModel()" class="btn btn-outline-secondary" type="button">Marka</button>
+                        </div>
+                        <select class="status_create_model_select" id="create_model_select" name="model_id" required>
+                            <option ng-repeat="model in models" value="@{{model.id}}">@{{model.name}}</option>
+                        </select>
+                        <input type="text" id="status_create_new_model" placeholder="Yeni Marka" name="new_model" class="form-control" disabled style="display: none">
+                        <div class="input-group-append">
+                            <button onclick="statusCreateNewModel()" class="btn btn-outline-secondary" type="button">Yeni</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Araç Adı</span>
+                        </div>
+                        <input class="form-control" id="status_create_name" name="name" required>
+                    </div>
+                    <label for="detail">Detay</label>
+                    <div class="input-group mb-3">
+                        <textarea id="status_create_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

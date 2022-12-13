@@ -66,29 +66,19 @@
                         <div class="bd-toc-item @yield('user_active')" >
                             <a class="bd-toc-link" href="{{ route('user') }}">Kullanıcı</a>
                         </div>
-                        @canany(['isAdmin','isIT'])
-                            <div class="bd-toc-item @yield('hardware_active')" >
-                                <a class="bd-toc-link" href="{{ route('hardware') }}" >Donanım</a>
-                            </div>
-                            <div class="bd-toc-item @yield('software_active')" >
-                                <a class="bd-toc-link" href="{{ route('software') }}">Yazılım</a>
-                            </div>
-                            <div class="bd-toc-item @yield('common_item_active')" >
-                                <a class="bd-toc-link" href="{{ route('common_item') }}">Ortak Kullanım</a>
-                            </div>
-                        @endcanany
                         @canany(['isAdmin','isProducer'])
-                        <div class="bd-toc-item @yield('material_active')" >
-                            <a class="bd-toc-link" href="{{ route('material') }}">Malzeme</a>
-                        </div>
+                        
                         <div class="bd-toc-item @yield('color_code_active')" >
                             <a class="bd-toc-link" href="{{ route('color_code') }}">Renk Kodu</a>
                         </div>
+                        <div class="bd-toc-item @yield('color_code_active')" >
+                            <a class="bd-toc-link" href="{{ route('product_type') }}">Ürün Türü</a>
+                        </div>
+                        <div class="bd-toc-item @yield('status_active')" >
+                            <a class="bd-toc-link" href="{{ route('status') }}">Durum</a>
+                        </div>
                         <div class="bd-toc-item @yield('new_type_active')" >
                             <a class="bd-toc-link" href="{{ route('new_type') }}">Tür</a>
-                        </div>
-                        <div class="bd-toc-item @yield('vehicle_active')" >
-                            <a class="bd-toc-link" href="{{ route('vehicle') }}">Araç</a>
                         </div>
                         @endcanany
                         <div class="bd-toc-item @yield('transaction_active')" >

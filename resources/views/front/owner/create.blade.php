@@ -29,6 +29,15 @@
         var get_useable_color_code_url  =   "{{route('get_useable_color_code')}}";
         var color_code_create_ajax_url  =   "{{route('color_code_create_ajax')}}";
 
+        var get_useable_status_url  =   "{{route('get_useable_status')}}";
+        var status_create_ajax_url  =   "{{route('status_create_ajax')}}";
+
+        var get_useable_product_type_url  =   "{{route('get_useable_product_type')}}";
+        var product_type_create_ajax_url  =   "{{route('product_type_create_ajax')}}";
+
+        var get_useable_status_url  =   "{{route('get_useable_status')}}";
+        var status_create_ajax_url  =   "{{route('status_create_ajax')}}";
+
         var get_useable_new_type_url  =   "{{route('get_useable_new_type')}}";
         var new_type_create_ajax_url  =   "{{route('new_type_create_ajax')}}";
     </script>
@@ -38,5 +47,8 @@
     <script src="{{asset('js/owner/material_select.js')}}"></script>
     <script src="{{asset('js/owner/vehicle_select.js')}}"></script>
     <script src="{{asset('js/owner/color_code_select.js')}}"></script>
+    <script src="{{asset('js/owner/status_select.js')}}"></script>
+    <script src="{{asset('js/owner/product_type_select.js')}}"></script>
+    <script src="{{asset('js/owner/status_select.js')}}"></script>
     <script src="{{asset('js/owner/new_type_select.js')}}"></script>
 @endsection

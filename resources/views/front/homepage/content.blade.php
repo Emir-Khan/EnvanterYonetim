@@ -1,54 +1,56 @@
 <div class="row" ng-controller="WidgetController">
+
+   
     <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
-        <div class="card bg-danger">
-            <div ng-mouseenter="WidgetMouseEnter(0)" ng-mouseleave="WidgetMouseLeave(0)" class="card-header info-widget">
-                <i ng-style="widget_icon[0]" class="fas fa-hdd widget-icon"></i>
-                <span class="widget-info">Donanım</span>
-                <span class="widget-text">
-                    <a class="widget-href" @canany(['isAdmin','isIT'])href="{{route('hardware')}}" @endcanany>
-                        @{{result.hardware_all}}
-                    </a>
-                </span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_wait">
-        <div class="card bg-danger">
-            <div class="card-header info-widget">
-                <i class="fas fa-spinner fa-spin widget-loading"></i>
-                <span class="widget-info"><br><br>Yükleniyor</span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
-        <div class="card bg-info">
-            <div ng-mouseenter="WidgetMouseEnter(1)" ng-mouseleave="WidgetMouseLeave(1)" class="card-header info-widget">
-                <i ng-style="widget_icon[1]" class="fas fa-compact-disc widget-icon"></i>
-                <span class="widget-info">Yazılım</span>
-                <span class="widget-text">
-                    <a class="widget-href" @canany(['isAdmin','isIT']) href="{{route('software')}}" @endcanany>
-                        @{{result.software_all}}
-                    </a>
-                </span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_wait">
-        <div class="card bg-info">
-            <div class="card-header info-widget">
-                <i class="fas fa-spinner fa-spin widget-loading"></i>
-                <span class="widget-info"><br><br>Yükleniyor</span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
-        <div class="card bg-info">
+        <div class="card bg-secondary">
             <div ng-mouseenter="WidgetMouseEnter(6)" ng-mouseleave="WidgetMouseLeave(6)" class="card-header info-widget">
                 <i ng-style="widget_icon[6]" class="fas fa-tint widget-icon"></i>
                 <span class="widget-info">Renk Kodu</span>
                 <span class="widget-text">
                     <a class="widget-href" @canany(['isAdmin','isIT']) href="{{route('color_code')}}" @endcanany>
                         @{{result.color_code_all}}
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_wait">
+        <div class="card bg-secondary">
+            <div class="card-header info-widget">
+                <i class="fas fa-spinner fa-spin widget-loading"></i>
+                <span class="widget-info"><br><br>Yükleniyor</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
+        <div class="card bg-primary">
+            <div ng-mouseenter="WidgetMouseEnter(9)" ng-mouseleave="WidgetMouseLeave(9)" class="card-header info-widget">
+                <i ng-style="widget_icon[9]" class="fas fa-solid fa-glasses widget-icon"></i>
+                <span class="widget-info">Ürün Türü</span>
+                <span class="widget-text">
+                    <a class="widget-href" @canany(['isAdmin','isIT']) href="{{route('product_type')}}" @endcanany>
+                        @{{result.product_type_all}}
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_wait">
+        <div class="card bg-primary">
+            <div class="card-header info-widget">
+                <i class="fas fa-spinner fa-spin widget-loading"></i>
+                <span class="widget-info"><br><br>Yükleniyor</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
+        <div class="card bg-info">
+            <div ng-mouseenter="WidgetMouseEnter(8)" ng-mouseleave="WidgetMouseLeave(8)" class="card-header info-widget">
+                <i ng-style="widget_icon[8]" class="fas fa-signal widget-icon"></i>
+                <span class="widget-info">Durum</span>
+                <span class="widget-text">
+                    <a class="widget-href" @canany(['isAdmin','isIT']) href="{{route('status')}}" @endcanany>
+                        @{{result.status}}
                     </a>
                 </span>
             </div>
@@ -104,69 +106,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
-        <div class="card bg-dark">
-            <div ng-mouseenter="WidgetMouseEnter(3)" ng-mouseleave="WidgetMouseLeave(3)" class="card-header info-widget">
-                <i ng-style="widget_icon[3]" class="fas fa-tools widget-icon"></i>
-                <span class="widget-info">Malzeme</span>
-                <span class="widget-text">
-                    <a class="widget-href" @canany(['isAdmin','isProducer']) href="{{route('material')}}" @endcanany>
-                        @{{result.material_all}}
-                    </a>
-                </span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_wait">
-        <div class="card bg-dark">
-            <div class="card-header info-widget">
-                <i class="fas fa-spinner fa-spin widget-loading"></i>
-                <span class="widget-info"><br><br>Yükleniyor</span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
-        <div class="card bg-purple">
-            <div ng-mouseenter="WidgetMouseEnter(4)" ng-mouseleave="WidgetMouseLeave(4)" class="card-header info-widget">
-                <i ng-style="widget_icon[4]" class="fas fa-handshake widget-icon"></i>
-                <span class="widget-info">Ortak Kullanım</span>
-                <span class="widget-text">
-                    <a class="widget-href" @canany(['isAdmin','isIT']) href="{{route('common_item')}}" @endcanany>
-                        @{{result.common_all}}
-                    </a>
-                </span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_wait">
-        <div class="card bg-purple">
-            <div class="card-header info-widget">
-                <i class="fas fa-spinner fa-spin widget-loading"></i>
-                <span class="widget-info"><br><br>Yükleniyor</span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
-        <div class="card bg-warning">
-            <div ng-mouseenter="WidgetMouseEnter(5)" ng-mouseleave="WidgetMouseLeave(5)" class="card-header info-widget">
-                <i ng-style="widget_icon[5]" class="fas fa-truck widget-icon"></i>
-                <span class="widget-info">Araç</span>
-                <span class="widget-text">
-                    <a class="widget-href" @canany(['isAdmin','isProducer']) href="{{route('vehicle')}}" @endcanany>
-                        @{{result.vehicle_all}}
-                    </a>
-                </span>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_wait">
-        <div class="card bg-warning">
-            <div class="card-header info-widget">
-                <i class="fas fa-spinner fa-spin widget-loading"></i>
-                <span class="widget-info"><br><br>Yükleniyor</span>
-            </div>
-        </div>
-    </div>
+   
 </div>
 <div class="row" ng-controller="HomepageTables">
     <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-3">

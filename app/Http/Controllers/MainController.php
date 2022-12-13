@@ -15,7 +15,9 @@ use App\Models\CommonItem\CommonItem;
 use App\Models\Material\Material;
 use App\Models\Material\MaterialOwner;
 use App\Models\NewType\NewType;
+use App\Models\ProductType\ProductType;
 use App\Models\Reset;
+use App\Models\Status\Status;
 use App\Models\Vehicle\Vehicle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -146,6 +148,8 @@ class MainController extends Controller
             $data['user']           =   User::all()->count();
             $data['color_code_all'] =   ColorCode::all()->count();
             $data['new_type_all']   =   NewType::all()->count();
+            $data['status']         =   Status::all()->count();
+            $data['product_type_all']   =   ProductType::all()->count();
             return response()->json($data);
         }
         public function homepage_currentMonthTransaction(Request $request){
@@ -153,7 +157,7 @@ class MainController extends Controller
             $start_date = date("Y-m-01 00:00:00");
             $end_date = strtotime("+1 month",strtotime($start_date));
             $end_date = date("Y-m-d 00:00:00",$end_date);
-            for($i=1;$i<=7;$i++){
+            for($i=1;$i<=5;$i++){
                 $j=(2*$i)-1;
                 $data['currentMonthTransaction'][] = Transaction::whereBetween('created_at',[$start_date,$end_date])->
                 whereBetween('type_id',[$j,$j+1])->count();

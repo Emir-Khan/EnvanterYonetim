@@ -68,6 +68,8 @@ use Illuminate\Support\Facades\Route;
 //Genel Kontroller(Giriş/Çıkış/Ana Sayfa)
     use App\Http\Controllers\MainController;
 use App\Http\Controllers\NewTypeController;
+use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\StatusController;
 use App\Http\Middleware\UserLogin;
     use App\Http\Middleware\ForgetPassword;
     use App\Http\Middleware\ResetPassword;
@@ -160,6 +162,9 @@ Route::middleware(["auth"])->group(function(){
 
             Route::post('/zimmet/renk-kodu/sil', [OwnerController::class, "color_code_drop"])->middleware(ColorCodeDrop::class)->name("color_code_drop");
 
+            Route::post('/zimmet/urun-turu/sil', [OwnerController::class, "product_type_drop"])->middleware(ProductTypeDrop::class)->name("product_type_drop");
+            Route::post('/zimmet/durum/sil', [OwnerController::class, "status_drop"])->middleware(StatusDrop::class)->name("status_drop");
+
             Route::post('/zimmet/tür/sil', [OwnerController::class, "new_type_drop"])->middleware(NewTypeDrop::class)->name("new_type_drop");
 
             Route::middleware('canAny:isAdmin,isIT,isProducer')->group(function(){
@@ -176,6 +181,10 @@ Route::middleware(["auth"])->group(function(){
             Route::post('zimmet/malzeme/ajax',[OwnerController::class,'owner_material_table_ajax'])->name('owner_material_table_ajax');
             Route::post('zimmet/arac/ajax',[OwnerController::class,'owner_vehicle_table_ajax'])->name('owner_vehicle_table_ajax');
             Route::post('zimmet/boya-kodu/ajax',[OwnerController::class,'owner_color_code_table_ajax'])->name('owner_color_code_table_ajax');
+
+            Route::post('zimmet/urun-turu/ajax',[OwnerController::class,'owner_product_type_table_ajax'])->name('owner_product_type_table_ajax');
+
+            Route::post('zimmet/durum/ajax',[OwnerController::class,'owner_status_table_ajax'])->name('owner_status_table_ajax');
 
             Route::post('zimmet/tür/ajax',[OwnerController::class,'owner_new_type_table_ajax'])->name('owner_new_type_table_ajax');
 
@@ -197,8 +206,14 @@ Route::middleware(["auth"])->group(function(){
             Route::post('zimmet/yeni/renk_kodu/ajax',[OwnerController::class,'get_useable_color_code'])->name('get_useable_color_code');
             Route::post('zimmet/yeni/renk_kodu',[OwnerController::class,'color_code_create_ajax'])->name('color_code_create_ajax');
 
-            Route::post('zimmet/yeni/tür/ajax',[OwnerController::class,'get_useable_new_type'])->name('get_useable_new_type');
-            Route::post('zimmet/yeni/tür',[OwnerController::class,'new_type_create_ajax'])->name('new_type_create_ajax');
+            Route::post('zimmet/yeni/urun_turu/ajax',[OwnerController::class,'get_useable_product_type'])->name('get_useable_product_type');
+            Route::post('zimmet/yeni/urun_turu',[OwnerController::class,'product_type_create_ajax'])->name('product_type_create_ajax');
+
+            Route::post('zimmet/yeni/durum/ajax',[OwnerController::class,'get_useable_status'])->name('get_useable_status');
+            Route::post('zimmet/yeni/durum',[OwnerController::class,'status_create_ajax'])->name('status_create_ajax');
+
+            Route::post('zimmet/yeni/tur/ajax',[OwnerController::class,'get_useable_new_type'])->name('get_useable_new_type');
+            Route::post('zimmet/yeni/tur',[OwnerController::class,'new_type_create_ajax'])->name('new_type_create_ajax');
     Route::middleware('canAny:isAdmin,isIT')->group(function(){
     //DONANIM
         //Donanım CRUD
@@ -269,11 +284,27 @@ Route::middleware(["auth"])->group(function(){
         Route::get('/renk-kodu',[ColorCodeController::class, 'index'])->name('color_code');
         Route::post('/renk-kodu/ekle', [ColorCodeController::class, "create"])->name("color_code_create");
         Route::post('/renk-kodu/duzenle', [ColorCodeController::class, "update"])->name("color_code_update");
-        Route::post('/renk-kodu/sil', [ColorCodeController::class, "delete"])->name("color_code_delete");        
+        Route::post('/renk-kodu/sil', [ColorCodeController::class, "delete"])->name("color_code_delete");  
+
+        Route::get('/urun-turu',[ProductTypeController::class, 'index'])->name('product_type');
+        Route::post('/urun-turu/ekle', [ProductTypeController::class, "create"])->name("product_type_create");
+        Route::post('/urun-turu/duzenle', [ProductTypeController::class, "update"])->name("product_type_update");
+        Route::post('/urun-turu/sil', [ProductTypeController::class, "delete"])->name("product_type_delete");  
+        
+        Route::get('/durum',[StatusController::class, 'index'])->name('status');
+        Route::post('/durum/ekle', [StatusController::class, "create"])->name("status_create");
+        Route::post('/durum/duzenle', [StatusController::class, "update"])->name("status_update");
+        Route::post('/durum/sil', [StatusController::class, "delete"])->name("status_delete");
 
         //Renk Kodu Ajax Sorguları
         Route::post('/renk-kodu/ajax/getTable',[ColorCodeController::class,'color_code_table_ajax'])->name('color_code_table_ajax');
         Route::post('/renk-kodu/ajax/getColorCode', [ColorCodeController::class, "get"])->name("get_color_code");
+
+        Route::post('/urun-turu/ajax/getTable',[ProductTypeController::class,'product_type_table_ajax'])->name('product_type_table_ajax');
+        Route::post('/urun-turu/ajax/getProducType', [ProductTypeController::class, "get"])->name("get_product_type");
+
+        Route::post('/durum/ajax/getTable',[StatusController::class,'status_table_ajax'])->name('status_table_ajax');
+        Route::post('/durum/ajax/getStatus', [StatusController::class, "get"])->name("get_status");
     //Tür
         //Tür CRUD
         Route::get('/tür',[NewTypeController::class, 'index'])->name('new_type');
@@ -283,7 +314,7 @@ Route::middleware(["auth"])->group(function(){
 
         //Tür Ajax Sorguları
         Route::post('/tür/ajax/getTable',[NewTypeController::class,'new_type_table_ajax'])->name('new_type_table_ajax');
-        Route::post('/tür/ajax/getColorCode', [NewTypeController::class, "get"])->name("get_new_type");
+        Route::post('/tür/ajax/getNewType', [NewTypeController::class, "get"])->name("get_new_type");
     //MALZEME
         //Malzeme CRUD
         Route::get('/malzeme',[MaterialController::class, 'material'])->name('material');

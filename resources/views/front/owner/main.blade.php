@@ -12,6 +12,8 @@
     var owner_material_table_ajax_url   =   "{{route('owner_material_table_ajax')}}";
     var owner_vehicle_table_ajax_url    =   "{{route('owner_vehicle_table_ajax')}}";
     var owner_color_code_table_ajax_url =   "{{route('owner_color_code_table_ajax')}}";
+    var owner_product_type_table_ajax_url =   "{{route('owner_product_type_table_ajax')}}";
+    var owner_status_table_ajax_url =   "{{route('owner_status_table_ajax')}}";
     var owner_new_type_table_ajax_url   =   "{{route('owner_new_type_table_ajax')}}";
     var user_id = "{{$user->id}}";
     function hardwareDrop(id,issue_time){
@@ -97,6 +99,32 @@
             }
         });
     }
+    function productTypeDrop(id){
+        $.ajax({
+            type:'POST',
+            url:`{{route('get_color_code')}}`,
+            data:{id},
+            dataType:'json',
+            success:function(response){
+                $('#color_code_drop_name').text(response.name);                
+                $('#color_code_drop_detail').html(response.detail);
+                $('#color_code_drop_id').val(response.id);
+            }
+        });
+    }
+    function statusDrop(id){
+        $.ajax({
+            type:'POST',
+            url:`{{route('get_status')}}`,
+            data:{id},
+            dataType:'json',
+            success:function(response){
+                $('#status_drop_name').text(response.name);                
+                $('#status_drop_detail').html(response.detail);
+                $('#status_drop_id').val(response.id);
+            }
+        });
+    }
     function newTypeDrop(id){
         $.ajax({
             type:'POST',
@@ -126,5 +154,7 @@
     <script src="{{ asset('js/owner/user_material.js') }}"></script>
     <script src="{{ asset('js/owner/user_vehicle.js') }}"></script>
     <script src="{{ asset('js/owner/user_color_code.js') }}"></script>
+    <script src="{{ asset('js/owner/user_product_type.js') }}"></script>
+    <script src="{{ asset('js/owner/user_status.js') }}"></script>
     <script src="{{ asset('js/owner/user_new_type.js') }}"></script>
 @endsection
