@@ -9,7 +9,7 @@ function createNewTypeTable (){
         },
         columns: [
             {
-                title:'Araç Adı',
+                title:'Tür',
                 data:'name'
             },
             {

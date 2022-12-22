@@ -123,39 +123,6 @@
         <div class="card">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadrumb-item text-primary"><b>Son 5 Ayda Kullanılan Malzemeler</b></li>
-                </ol>
-            </nav>
-            <canvas id="FiveMonthMaterialChart"></canvas>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-3">
-        <div class="card">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadrumb-item text-primary"><b>Son Eklenen 5 Kullanıcı</b></li>
-                </ol>
-            </nav>
-            <div class="col-12">
-                <table id="lastFiveUser" class="table table-sm small table-striped table-bordered" style="width: 100%">
-                <thead>
-                    <th>Ad Soyad</th>
-                    <th>Departman</th>
-                </thead>
-                <tbody ng-show="lastFiveUserInfo">
-                    <tr ng-repeat="user in lastFiveUser">
-                        <td>@{{user.name}}</td>
-                        <td>@{{user.department}}</td>
-                    </tr>
-                </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-3">
-        <div class="card">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
                     <li class="breadrumb-item text-primary"><b>Son 5 İşlem</b></li>
                 </ol>
             </nav>
@@ -183,5 +150,29 @@
             </div>
         </div>
     </div>
+    <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-3">
+        <div class="card">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadrumb-item text-primary"><b>Son Eklenen 5 Kullanıcı</b></li>
+                </ol>
+            </nav>
+            <div class="col-12">
+                <table id="lastFiveUser" class="table table-sm small table-striped table-bordered" style="width: 100%">
+                <thead>
+                    <th>Ad Soyad</th>
+                    <th>Departman</th>
+                </thead>
+                <tbody ng-show="lastFiveUserInfo">
+                    <tr ng-repeat="user in lastFiveUser">
+                        <td>@{{user.name}}</td>
+                        <td>@{{user.department}}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+   
 
 </div>

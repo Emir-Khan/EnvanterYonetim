@@ -54,7 +54,7 @@ class OwnerController extends Controller
             $issue_time = date('Y-m-d H:i:s',$issue_time_stamp);
             if(isset($request->hardwares)){
                 foreach($request->hardwares as $item){
-                    $control = HardwareOwner::insert(['hardware_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    $control = HardwareOwner::insert(['hardware_id' => $item,'owner_id' => $user->id,'created_at' => now()]);
                     if($control){
                         $hardware = Hardware::where('id',$item)->first();
                         $trans_info = 'Tür: '.$hardware->getType->name.
@@ -77,7 +77,7 @@ class OwnerController extends Controller
                             'user_email' => $user->email,
                             'trans_info' => $trans_info,
                             'trans_details' => $trans_details,
-                            'created_at' => $issue_time
+                            'created_at' => now()
                         ]);
                     }
                     else{
@@ -87,7 +87,7 @@ class OwnerController extends Controller
             }
             if(isset($request->softwares)){
                 foreach($request->softwares as $item){
-                    $control = SoftwareOwner::insert(['software_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    $control = SoftwareOwner::insert(['software_id' => $item,'owner_id' => $user->id,'created_at' => now()]);
                     if($control){
                         $software = Software::find($item);
                         $trans_info = 'Tür: '.$software->getType->name.
@@ -107,7 +107,7 @@ class OwnerController extends Controller
                             'user_email' => $user->email,
                             'trans_info' => $trans_info,
                             'trans_details' => $trans_details,
-                            'created_at' => $issue_time
+                            'created_at' => now()
                         ]);
                     }
                     else{
@@ -117,7 +117,7 @@ class OwnerController extends Controller
             }
             if(isset($request->commons)){
                 foreach($request->commons as $item){
-                    $control = CommonItemOwner::insert(['common_item_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    $control = CommonItemOwner::insert(['common_item_id' => $item,'owner_id' => $user->id,'created_at' => now()]);
                     if($control){
                         $common = CommonItem::find($item);
                         $trans_info = 'Tür: '.$common->getType->name.
@@ -140,7 +140,7 @@ class OwnerController extends Controller
                             'user_email' => $user->email,
                             'trans_info' => $trans_info,
                             'trans_details' => $trans_details,
-                            'created_at' => $issue_time
+                            'created_at' => now()
                         ]);
                         CommonItem::where('id',$item)->update([
                             'owner_count' => $common->owner_count+1,
@@ -154,7 +154,7 @@ class OwnerController extends Controller
             }
             if(isset($request->materials)){
                 foreach($request->materials as $item){
-                    $control = MaterialOwner::insert(['material_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    $control = MaterialOwner::insert(['material_id' => $item,'owner_id' => $user->id,'created_at' => now()]);
                     if($control){
                         $material = Material::find($item);
                         if($material->detail != NULL){
@@ -175,7 +175,7 @@ class OwnerController extends Controller
                             'user_email' => $user->email,
                             'trans_info' => $material->getType->name,
                             'trans_details' => $trans_details,
-                            'created_at' => $issue_time
+                            'created_at' => now()
                         ]);
                     }
                     else{
@@ -185,7 +185,7 @@ class OwnerController extends Controller
             }
             if(isset($request->vehicles)){
                 foreach($request->vehicles as $item){
-                    $control = VehicleOwner::insert(['vehicle_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    $control = VehicleOwner::insert(['vehicle_id' => $item,'owner_id' => $user->id,'created_at' => now()]);
                     if($control){
                         $vehicle = Vehicle::find($item);
                         if($vehicle->detail != NULL){
@@ -208,7 +208,7 @@ class OwnerController extends Controller
                             'user_email' => $user->email,
                             'trans_info' => $trans_info,
                             'trans_details' => $trans_details,
-                            'created_at' => $issue_time
+                            'created_at' => now()
                         ]);
                     }
                     else{
@@ -218,7 +218,7 @@ class OwnerController extends Controller
             }
             if(isset($request->color_codes)){
                 foreach($request->color_codes as $item){
-                    $control = ColorCodeOwner::insert(['color_code_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    $control = ColorCodeOwner::insert(['color_code_id' => $item,'owner_id' => $user->id,'created_at' => now()]);
                     if($control){
                         $color_code = ColorCode::find($item);
                         if($color_code->detail != NULL){
@@ -239,7 +239,7 @@ class OwnerController extends Controller
                             'user_email' => $user->email,
                             'trans_info' => $color_code->name,
                             'trans_details' => $trans_details,
-                            'created_at' => $issue_time
+                            'created_at' => now()
                         ]);
                     }
                     else{
@@ -249,7 +249,7 @@ class OwnerController extends Controller
             }
             if(isset($request->product_types)){
                 foreach($request->product_types as $item){
-                    $control = ProductTypeOwner::insert(['product_type_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    $control = ProductTypeOwner::insert(['product_type_id' => $item,'owner_id' => $user->id,'created_at' => now()]);
                     if($control){
                         $product_type = ProductType::find($item);
                         if($product_type->detail != NULL){
@@ -270,7 +270,7 @@ class OwnerController extends Controller
                             'user_email' => $user->email,
                             'trans_info' => $product_type->name,
                             'trans_details' => $trans_details,
-                            'created_at' => $issue_time
+                            'created_at' => now()
                         ]);
                     }
                     else{
@@ -280,7 +280,7 @@ class OwnerController extends Controller
             }
             if(isset($request->status)){
                 foreach($request->status as $item){
-                    $control = StatusOwner::insert(['status_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    $control = StatusOwner::insert(['status_id' => $item,'owner_id' => $user->id,'created_at' => now()]);
                     if($control){
                         $status = Status::find($item);
                         if($status->detail != NULL){
@@ -301,7 +301,7 @@ class OwnerController extends Controller
                             'user_email' => $user->email,
                             'trans_info' => $status->name,
                             'trans_details' => $trans_details,
-                            'created_at' => $issue_time
+                            'created_at' => now()
                         ]);
                     }
                     else{
@@ -311,7 +311,7 @@ class OwnerController extends Controller
             }
             if(isset($request->new_types)){
                 foreach($request->new_types as $item){
-                    $control = NewTypeOwner::insert(['new_type_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    $control = NewTypeOwner::insert(['new_type_id' => $item,'owner_id' => $user->id,'created_at' => now()]);
                     if($control){
                         $new_type = NewType::find($item);
                         if($new_type->detail != NULL){
@@ -333,7 +333,7 @@ class OwnerController extends Controller
                             'user_email' => $user->email,
                             'trans_info' => $new_type->name,
                             'trans_details' => $trans_details,
-                            'created_at' => $issue_time
+                            'created_at' => now()
                         ]);
                     }
                     else{
@@ -2098,7 +2098,7 @@ class OwnerController extends Controller
             $issue_time = date('Y-m-d H:i:s',strtotime($request->issue_time));
             if($item_type == 'hardware'){
                 $control = HardwareOwner::where('hardware_id',$request->item_id)->where('owner_id',$request->user_id)->update([
-                    'created_at' => $issue_time
+                    'created_at' => now()
                 ]);
                 if($control >0 ){
                     return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));
@@ -2109,7 +2109,7 @@ class OwnerController extends Controller
             }
             else if($item_type == 'software'){
                 $control = SoftwareOwner::where('software_id',$request->item_id)->where('owner_id',$request->user_id)->update([
-                    'created_at' => $issue_time
+                    'created_at' => now()
                 ]);
                 if($control >0 ){
                     return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));
@@ -2120,7 +2120,7 @@ class OwnerController extends Controller
             }
             else if($item_type == 'common'){
                 $control = CommonItemOwner::where('common_item_id',$request->item_id)->where('owner_id',$request->user_id)->update([
-                    'created_at' => $issue_time
+                    'created_at' => now()
                 ]);
                 if($control >0 ){
                     return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));
@@ -2131,7 +2131,7 @@ class OwnerController extends Controller
             }
             else if($item_type == 'material'){
                 $control = MaterialOwner::where('id',$request->item_id)->where('owner_id',$request->user_id)->update([
-                    'created_at' => $issue_time
+                    'created_at' => now()
                 ]);
                 if($control >0 ){
                     return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));
@@ -2142,7 +2142,7 @@ class OwnerController extends Controller
             }
             else{
                 $control = VehicleOwner::where('vehicle_id',$request->item_id)->where('owner_id',$request->user_id)->update([
-                    'created_at' => $issue_time
+                    'created_at' => now()
                 ]);
                 if($control >0 ){
                     return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));

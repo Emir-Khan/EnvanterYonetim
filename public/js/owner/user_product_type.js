@@ -9,7 +9,7 @@ function createProductTypeTable (){
         },
         columns: [
             {
-                title:'Araç Adı',
+                title:'Ürün Türü',
                 data:'name'
             },
             {
@@ -57,6 +57,7 @@ function createProductTypeTable (){
                 data:null,
                 class: 'text-center',
                 render:function(row){
+                    console.log(row);
                     if(row.role){
                         var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Aracı Teslim Al">'
                         +'<a data-toggle="modal" data-target="#productTypeDropModal" '

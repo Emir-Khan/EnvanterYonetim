@@ -9,7 +9,7 @@ function createColorCodeTable (){
         },
         columns: [
             {
-                title:'Araç Adı',
+                title:'Renk Kodu',
                 data:'name'
             },
             {

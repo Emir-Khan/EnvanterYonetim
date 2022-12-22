@@ -84,6 +84,8 @@ use App\Http\Middleware\UserLogin;
     use App\Http\Middleware\Competent\CompetentDelete;
 use App\Http\Middleware\Owner\ColorCodeDrop;
 use App\Http\Middleware\Owner\NewTypeDrop;
+use App\Http\Middleware\Owner\ProductTypeDrop;
+use App\Http\Middleware\Owner\StatusDrop;
 
 //Giriş
 Route::get('/', [MainController::class, "login"])->middleware(UserLogin::class)->name("login");

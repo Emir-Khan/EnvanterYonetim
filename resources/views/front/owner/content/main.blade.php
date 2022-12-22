@@ -264,7 +264,7 @@
                 @csrf
                 <div class="modal-body px-5">
                     <div>
-                        <b><u>Araç Adı:</u></b> <span id="product_type_drop_name"></span></br>
+                        <b><u>Ürün Türü:</u></b> <span id="product_type_drop_name"></span></br>
                         <b><u>Detay:</u></b></br> <span id="product_type_drop_detail"></span></br>
                     </div>
                     <div class="mt-3 my-2 text-center">
@@ -295,7 +295,7 @@
                 @csrf
                 <div class="modal-body px-5">
                     <div>
-                        <b><u>Araç Adı:</u></b> <span id="color_code_drop_name"></span></br>
+                        <b><u>Renk Kodu:</u></b> <span id="color_code_drop_name"></span></br>
                         <b><u>Detay:</u></b></br> <span id="color_code_drop_detail"></span></br>
                     </div>
                     <div class="mt-3 my-2 text-center">
@@ -326,7 +326,7 @@
                 @csrf
                 <div class="modal-body px-5">
                     <div>
-                        <b><u>Araç Adı:</u></b> <span id="status_drop_name"></span></br>
+                        <b><u>Durum:</u></b> <span id="status_drop_name"></span></br>
                         <b><u>Detay:</u></b></br> <span id="status_drop_detail"></span></br>
                     </div>
                     <div class="mt-3 my-2 text-center">
@@ -357,7 +357,7 @@
                 @csrf
                 <div class="modal-body px-5">
                     <div>
-                        <b><u>Araç Adı:</u></b> <span id="new_type_drop_name"></span></br>
+                        <b><u>Tür:</u></b> <span id="new_type_drop_name"></span></br>
                         <b><u>Detay:</u></b></br> <span id="new_type_drop_detail"></span></br>
                     </div>
                     <div class="mt-3 my-2 text-center">

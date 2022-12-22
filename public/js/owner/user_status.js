@@ -9,7 +9,7 @@ function createStatusTable (){
         },
         columns: [
             {
-                title:'Araç Adı',
+                title:'Durum',
                 data:'name'
             },
             {

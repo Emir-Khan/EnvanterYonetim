@@ -102,13 +102,13 @@
     function productTypeDrop(id){
         $.ajax({
             type:'POST',
-            url:`{{route('get_color_code')}}`,
+            url:`{{route('get_product_type')}}`,
             data:{id},
             dataType:'json',
             success:function(response){
-                $('#color_code_drop_name').text(response.name);                
-                $('#color_code_drop_detail').html(response.detail);
-                $('#color_code_drop_id').val(response.id);
+                $('#product_type_drop_name').text(response.name);                
+                $('#product_type_drop_detail').html(response.detail);
+                $('#product_type_drop_id').val(response.id);
             }
         });
     }
