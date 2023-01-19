@@ -71,7 +71,7 @@
                         <div class="bd-toc-item @yield('color_code_active')" >
                             <a class="bd-toc-link" href="{{ route('color_code') }}">Renk Kodu</a>
                         </div>
-                        <div class="bd-toc-item @yield('color_code_active')" >
+                        <div class="bd-toc-item @yield('product_type_active')" >
                             <a class="bd-toc-link" href="{{ route('product_type') }}">Ürün Türü</a>
                         </div>
                         <div class="bd-toc-item @yield('status_active')" >
